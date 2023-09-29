@@ -1,3 +1,4 @@
+#include "./mclass.hpp"
 #include <algorithm>
 #include <climits>
 #include <cmath>
@@ -11,7 +12,6 @@
 #include <string>
 #include <system_error>
 #include <vector>
-#include "./mclass.hpp"
 using namespace std;
 #pragma ONCE
 // will be used for Order Statistic implementation
@@ -21,18 +21,18 @@ public:
   // x is a vector in R^2
   coordinate(size_t len) {
     x = new long double[len]();
-    this->size=len;
+    this->size = len;
   }
   void setcoord(vector<int> nums) {
-    for(int i=0;i<this->size;i++){
-     x[i] =  nums[i];
+    for (int i = 0; i < this->size; i++) {
+      x[i] = nums[i];
     }
   }
-  long double xn(int n) { return x[n-1]; }
- 
+  long double xn(int n) { return x[n - 1]; }
+
   void printcoords(int n) {
-    for(int i=0;i<n;i++){
-     cout << "( " << x[i]<< " )" <<endl;
+    for (int i = 0; i < n; i++) {
+      cout << "( " << x[i] << " )" << endl;
     }
   }
 
@@ -57,7 +57,7 @@ public:
 
   // adjust for sorting by coordinates
 
-  long double numparse(string line, char *&i, matrixrow fill) {
+  long double numparse(string line, char *&i) {
     string ans = string();
     char *p = i;
     // run away from non numeric characters
@@ -87,7 +87,7 @@ public:
   // END HELPERS
   //  - -- - --- -- - - - - - - -- - -------------------->               FOR
   //  CECS            < ------ - - - - - - - - - -- - - - - -- - - -
-  vector<matrixrow *> *filein(string in) {
+  vector<matrixrow *> *filein(string in, ifstream *p) {
     // start AFTER first bracket
     ifstream f;
     f.open(in);
@@ -97,7 +97,7 @@ public:
     // max of 10 pairs of points per line.
     if (!f.fail()) {
       // allocate on the heap, dealing with large collections of numbers
-      while (getline(f, line, '\n')) {
+      while (getline(f, line, '}')) {
         if (!line.empty()) {
           // 9 is first number
           char *i = &line[0];
@@ -109,8 +109,8 @@ public:
               // recursively call numparse on sets of coordinates
               i++;
               matrixrow *m = new matrixrow(line.size());
-              double x1 = numparse(line, *&i);
-              double x2 = numparse(line, *&i);
+              m->setelement(1, numparse(line, *&i));
+              m->setelement(2, numparse(line, *&i));
 
               break;
             }
@@ -129,6 +129,8 @@ public:
           }
         }
       }
+      // p will now point to end of f
+      p = &f;
       return points;
     } else {
       cout << "ERROR reading from file. Please check your spelling and "
