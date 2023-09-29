@@ -83,7 +83,6 @@ public:
       exit(0);
     }
   }
-
   // END HELPERS
   //  - -- - --- -- - - - - - - -- - -------------------->               FOR
   //  CECS            < ------ - - - - - - - - - -- - - - - -- - - -
@@ -93,6 +92,7 @@ public:
     f.open(in);
     // vector of rows of arrays of max size 20 representing coordinates
     string line;
+      int numind=1;
     // array of "window" of coordinate pointers being compared at a time
     // max of 10 pairs of points per line.
     if (!f.fail()) {
@@ -109,9 +109,8 @@ public:
               // recursively call numparse on sets of coordinates
               i++;
               matrixrow *m = new matrixrow(line.size());
-              m->setelement(1, numparse(line, *&i));
-              m->setelement(2, numparse(line, *&i));
-
+              m->setelement(numind, numparse(line, *&i));
+              numind++;
               break;
             }
 
