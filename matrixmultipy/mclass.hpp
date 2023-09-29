@@ -5,8 +5,8 @@ using namespace std;
 
 class matrixrow {
   public:
-  matrixrow(void) { row = new vector<double>(); }
-  matrixrow(unsigned size) { row = new vector<double>(size); }
+  matrixrow(void) { row = new vector<int>(); }
+  matrixrow(unsigned size) { row = new vector<int>(size); }
 
   void fill(string in, unsigned start, size_t count) {
     // string now needs parsing
@@ -14,6 +14,7 @@ class matrixrow {
       row->push_back(in[i]);
     }
   }
+
   double xn(size_t i){
     return row->at(i-1);
   }
@@ -22,6 +23,14 @@ class matrixrow {
     row->at(i-1)=val;
     return ;
   }
+  void setrow (vector<int> nrow){
+    // set element i to val.
+    delete this->row;
+    this->row=&nrow;
+  }
+  vector<int> * handoff(){
+    return row;
+  }
 private:
-  vector<double> *row;
+  vector<int> *row;
 };

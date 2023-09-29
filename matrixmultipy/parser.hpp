@@ -7,32 +7,6 @@
 using namespace std;
 #pragma ONCE
 // will be used for Order Statistic implementation
-
-class coordinate {
-public:
-  // x is a vector in R^2
-  coordinate(size_t len) {
-    x = new long double[len]();
-    this->size = len;
-  }
-  void setrow(vector<int> row) {
-    for (int i = 0; i < this->size; i++) {
-      x[i] = row[i];
-    }
-  }
-  long double xn(int n) { return x[n - 1]; }
-
-  void printcoords(int n) {
-    for (int i = 0; i < n; i++) {
-      cout << "( " << x[i] << " )" << endl;
-    }
-  }
-
-private:
-  long double *x;
-  long unsigned size;
-};
-
 class parser {
 public:
   // HELPERS
@@ -47,34 +21,31 @@ public:
     return nullptr;
   }
 
-  // adjust for sorting by coordinates
-
-  long double numparse(string line, char *&i) {
-    string ans = string();
-    char *p = i;
-    // run away from non numeric characters
-    while (!(*p <= '9' && *p >= '0' || *p == '.')) {
+  void intparse(string v, vector<int> *destination) {
+    // CODE IS WRONG CURRENTLY, NEEDS FIXING
+    v = v.c_str();
+    vector<int>::iterator p = destination->begin();
+    char *i = &v[0];
+    while (*i != '\0') {
+      // converts to decimal representation of character ASCII
+      *p = *i - '0';
+      i++;
       p++;
-    }
-    // start adding into double
-    while ((*p <= '9' && *p >= '0') || *p == '.') {
-      ans += *p;
-      p++;
-    }
-    // i is now at next number index
-
-    if (ans == "1" || ans == "0") {
-      i = p;
-      return -1;
-    }
-    try {
-      i = p;
-      return stold(ans);
-    } catch (errc) {
-      cout << "error converting" << endl;
-      exit(0);
     }
   }
+  // adjust for sorting by coordinates
+  void numparse(string line, char *&i, matrixrow *row) {
+    char *p = i;
+    // does not currently grab double digit numbers, needs fixing
+    while (*p != '#') {
+      string ans = string();
+      while (*p != '}') {
+        (*p <= '9' && *p >= '0') ? ans += *p : p++;
+      }
+      intparse(ans, row->handoff());
+    }
+  }
+  
   // END HELPERS
   //  - -- - --- -- - - - - - - -- - -------------------->               FOR
   //  CECS            < ------ - - - - - - - - - -- - - - - -- - - -
@@ -83,35 +54,33 @@ public:
     ifstream f;
     f.open(in);
     string line;
-    int numind = 1;
     matrixrow *m;
     vector<matrixrow *> *ans = new vector<matrixrow *>();
     if (!f.fail()) {
       while (getline(f, line, '}')) {
         if (!line.empty()) {
           // 9 is first number
-          char *i = &line[0];
+          char *i = &line[1];
           // MAIN PROGRAM
-          while (i < &line[line.size() - 1]) {
-            switch (*i) {
-            case '{': {
-              i++;
-              m = new matrixrow(line.size());
-              m->setelement(numind, numparse(line, *&i));
-              numind++;
-              break;
-            }
-            default: {
-              break;
-            }
-            }
+          switch (*i) {
+          case '{': {
             i++;
+            m = new matrixrow(line.size() - 2);
+            numparse(line, *&i, m);
+            int counter = 0;
+            break;
           }
+          default: {
+            break;
+          }
+          }
+          i++;
           ans->push_back(m);
         }
       }
       p = &f;
-      return points;
+      // needs to be changed to
+      return ans;
     } else {
       cout << "ERROR reading from file. Please check your spelling and "
               "placement of filename within this directory."
