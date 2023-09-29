@@ -11,6 +11,7 @@
 #include <string>
 #include <system_error>
 #include <vector>
+#include "./mclass.hpp"
 using namespace std;
 #pragma ONCE
 // will be used for Order Statistic implementation
@@ -18,28 +19,26 @@ using namespace std;
 class coordinate {
 public:
   // x is a vector in R^2
-  coordinate(void) {
-    x = new long double[2]();
-    x[0] = x[1] = 0.0;
+  coordinate(size_t len) {
+    x = new long double[len]();
+    this->size=len;
   }
-  void setcoord(long double x1, long double x2) {
-    x[0] = x1;
-    x[1] = x2;
+  void setcoord(vector<int> nums) {
+    for(int i=0;i<this->size;i++){
+     x[i] =  nums[i];
+    }
   }
-  long double x0(void) { return x[0]; }
-  long double x1(void) { return x[1]; }
-
-  long double distance(coordinate *c) {
-    // Calculating distance from the coordinate at c
-    return sqrt(pow(x[0] - c->x0(), 2) * 1.0 + pow(x[1] - c->x1(), 2) * 1.0);
-  }
-  void printcoords(void) {
-    cout << "( " << x[0];
-    cout << " , " << x[1] << " )" << endl;
+  long double xn(int n) { return x[n-1]; }
+ 
+  void printcoords(int n) {
+    for(int i=0;i<n;i++){
+     cout << "( " << x[i]<< " )" <<endl;
+    }
   }
 
 private:
   long double *x;
+  long unsigned size;
 };
 
 class parser {
@@ -58,7 +57,7 @@ public:
 
   // adjust for sorting by coordinates
 
-  long double numparse(string line, char *&i) {
+  long double numparse(string line, char *&i, matrixrow fill) {
     string ans = string();
     char *p = i;
     // run away from non numeric characters
@@ -88,7 +87,7 @@ public:
   // END HELPERS
   //  - -- - --- -- - - - - - - -- - -------------------->               FOR
   //  CECS            < ------ - - - - - - - - - -- - - - - -- - - -
-  vector<coordinate *> *filein(string in) {
+  vector<matrixrow *> *filein(string in) {
     // start AFTER first bracket
     ifstream f;
     f.open(in);
@@ -98,7 +97,6 @@ public:
     // max of 10 pairs of points per line.
     if (!f.fail()) {
       // allocate on the heap, dealing with large collections of numbers
-      vector<coordinate *> *points = new vector<coordinate *>();
       while (getline(f, line, '\n')) {
         if (!line.empty()) {
           // 9 is first number
@@ -110,14 +108,9 @@ public:
               // change code to use i while newline character isnt reached to
               // recursively call numparse on sets of coordinates
               i++;
-              coordinate *p = new coordinate();
+              matrixrow *m = new matrixrow(line.size());
               double x1 = numparse(line, *&i);
               double x2 = numparse(line, *&i);
-              if (x1 == -1 && x2 == -1) {
-                return points;
-              }
-              p->setcoord(x1, x2);
-              points->push_back(p);
 
               break;
             }
@@ -141,7 +134,7 @@ public:
       cout << "ERROR reading from file. Please check your spelling and "
               "placement of filename within this directory."
            << endl;
-      return new vector<coordinate *>();
+      return new vector<matrixrow *>();
       ;
     }
   }
