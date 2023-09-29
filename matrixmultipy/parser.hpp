@@ -90,13 +90,11 @@ public:
     // start AFTER first bracket
     ifstream f;
     f.open(in);
-    // vector of rows of arrays of max size 20 representing coordinates
     string line;
-      int numind=1;
-    // array of "window" of coordinate pointers being compared at a time
-    // max of 10 pairs of points per line.
+    int numind = 1;
+    matrixrow *m;
+    vector<matrixrow *> *ans = new vector<matrixrow *>();
     if (!f.fail()) {
-      // allocate on the heap, dealing with large collections of numbers
       while (getline(f, line, '}')) {
         if (!line.empty()) {
           // 9 is first number
@@ -105,30 +103,21 @@ public:
           while (i < &line[line.size() - 1]) {
             switch (*i) {
             case '{': {
-              // change code to use i while newline character isnt reached to
-              // recursively call numparse on sets of coordinates
               i++;
-              matrixrow *m = new matrixrow(line.size());
+              m = new matrixrow(line.size());
               m->setelement(numind, numparse(line, *&i));
               numind++;
               break;
             }
-
             default: {
               break;
             }
-              // will insert newline char at end of string
-              // double answer = atof(buffer);
-              //  temp.push_back(buffer)
-              // each point in array represents a pair of coordinates
             }
             i++;
-            // nums.push_back(points);
-            // float parse
           }
+          ans->push_back(m);
         }
       }
-      // p will now point to end of f
       p = &f;
       return points;
     } else {
