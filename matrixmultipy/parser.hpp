@@ -1,16 +1,8 @@
 #include "./mclass.hpp"
-#include <algorithm>
-#include <climits>
 #include <cmath>
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <iterator>
-#include <limits>
-#include <stack>
-#include <stdexcept>
 #include <string>
-#include <system_error>
 #include <vector>
 using namespace std;
 #pragma ONCE
@@ -23,9 +15,9 @@ public:
     x = new long double[len]();
     this->size = len;
   }
-  void setcoord(vector<int> nums) {
+  void setrow(vector<int> row) {
     for (int i = 0; i < this->size; i++) {
-      x[i] = nums[i];
+      x[i] = row[i];
     }
   }
   long double xn(int n) { return x[n - 1]; }
