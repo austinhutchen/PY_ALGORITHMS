@@ -45,7 +45,7 @@ public:
       intparse(ans, row->handoff());
     }
   }
-  
+
   // END HELPERS
   //  - -- - --- -- - - - - - - -- - -------------------->               FOR
   //  CECS            < ------ - - - - - - - - - -- - - - - -- - - -
@@ -57,7 +57,7 @@ public:
     matrixrow *m;
     vector<matrixrow *> *ans = new vector<matrixrow *>();
     if (!f.fail()) {
-      while (getline(f, line, '}')) {
+      while (getline(f, line, '#')) {
         if (!line.empty()) {
           // 9 is first number
           char *i = &line[1];
