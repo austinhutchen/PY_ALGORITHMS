@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 #pragma ONCE
-// will be used for Order Statistic implementation
+// will be used for Straussen's implementation
 class parser {
 public:
   // HELPERS
@@ -20,15 +20,17 @@ public:
     }
     return nullptr;
   }
+   void donothing(){
 
-  void intparse(string v, vector<int> *destination) {
+   }
+  void intparse(string v, matrixrow *row) {
     // CODE IS WRONG CURRENTLY, NEEDS FIXING
     v = v.c_str();
-    vector<int>::iterator p = destination->begin();
     char *i = &v[0];
+    unsigned p=1;
     while (*i != '\0') {
       // converts to decimal representation of character ASCII
-      *p = *i - '0';
+       (*i <= '9' && *i >= '0') ? row->setelement(p, *i - '0'): donothing() ;
       i++;
       p++;
     }
@@ -43,7 +45,7 @@ public:
         (*i <= '9' && *i >= '0') ? ans += *i : i++;
       }
       if (ans.size() != 0) {
-        intparse(ans, row->handoff());
+        intparse(ans, row);
       }
       i++;
     }
@@ -52,7 +54,7 @@ public:
   // END HELPERS
   //  - -- - --- -- - - - - - - -- - -------------------->               FOR
   //  CECS            < ------ - - - - - - - - - -- - - - - -- - - -
-  vector<matrixrow *> *filein(string in, ifstream *p) {
+  vector<matrixrow *> *filein(string in) {
     // start AFTER first bracket
     ifstream f;
     f.open(in);
@@ -63,21 +65,16 @@ public:
       while (getline(f, line, '\n')) {
         if (!line.empty()) {
           // 9 is first number
-          char *i = &line[1];
+          char *i = &line[0];
           // MAIN PROGRAM
           switch (*i) {
           case '{': {
-            i++;
             m = new matrixrow(line.size() - 2);
             numparse(line, *&i, m);
-            int counter = 0;
             break;
           }
           case '#': {
             return ans;
-          }
-          default: {
-            break;
           }
           }
           i++;
@@ -87,7 +84,6 @@ public:
           return new vector<matrixrow *>();
         }
       }
-      p = &f;
       // needs to be changed to
     } else {
       cout << "ERROR reading from file. Please check your spelling and "

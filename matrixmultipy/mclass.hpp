@@ -28,7 +28,7 @@ class matrixrow {
     this->row->clear();
     this->row=&nrow;
   }
-  vector<int> * handoff(){
+  vector<int> *& handoff(){
     return row;
   }
 private:
