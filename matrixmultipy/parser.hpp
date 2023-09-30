@@ -35,14 +35,17 @@ public:
   }
   // adjust for sorting by coordinates
   void numparse(string line, char *&i, matrixrow *row) {
-    char *p = i;
     // does not currently grab double digit numbers, needs fixing
-    while (*p != '#') {
-      string ans = string();
-      while (*p != '}') {
-        (*p <= '9' && *p >= '0') ? ans += *p : p++;
+    string ans;
+    while (*i != '#') {
+      ans = string();
+      while (*i != '}') {
+        (*i <= '9' && *i >= '0') ? ans += *i : i++;
       }
-      intparse(ans, row->handoff());
+      if (ans.size() != 0) {
+        intparse(ans, row->handoff());
+      }
+      i++;
     }
   }
 
@@ -57,7 +60,7 @@ public:
     matrixrow *m;
     vector<matrixrow *> *ans = new vector<matrixrow *>();
     if (!f.fail()) {
-      while (getline(f, line, '#')) {
+      while (getline(f, line, '\n')) {
         if (!line.empty()) {
           // 9 is first number
           char *i = &line[1];
@@ -70,17 +73,22 @@ public:
             int counter = 0;
             break;
           }
+          case '#': {
+            return ans;
+          }
           default: {
             break;
           }
           }
           i++;
           ans->push_back(m);
+        } else {
+          cout << "ERROR " << endl;
+          return new vector<matrixrow *>();
         }
       }
       p = &f;
       // needs to be changed to
-      return ans;
     } else {
       cout << "ERROR reading from file. Please check your spelling and "
               "placement of filename within this directory."

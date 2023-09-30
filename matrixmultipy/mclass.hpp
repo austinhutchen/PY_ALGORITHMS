@@ -25,7 +25,7 @@ class matrixrow {
   }
   void setrow (vector<int> nrow){
     // set element i to val.
-    delete this->row;
+    this->row->clear();
     this->row=&nrow;
   }
   vector<int> * handoff(){
