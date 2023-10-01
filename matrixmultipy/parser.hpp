@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 #pragma ONCE
-#define _COLS 3
+#define _COLS 9
 // will be used for Straussen's implementation
 class parser {
 public:
