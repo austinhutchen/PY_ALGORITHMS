@@ -21,31 +21,17 @@ public:
     return nullptr;
   }
   void donothing() { return; }
-  void intparse(string v, matrixrow *row) {
+  void intparse(string v, matrixrow *row, char *&k) {
     // CODE IS WRONG CURRENTLY, NEEDS FIXING
     char *i = &v[0];
     unsigned p = 1;
-    while (*i != '\0') {
+    while (*i != '}') {
       // converts to decimal representation of character ASCII
       (*i <= '9' && *i >= '0') ? row->setelement(p, *i - '0') : donothing();
       i++;
       p++;
     }
-  }
-  // adjust for sorting by coordinates
-  void numparse(string line, char *&i, matrixrow *row) {
-    // does not currently grab double digit numbers, needs fixing
-    string ans;
-    while (*i != '#') {
-      ans = string();
-      while (*i != '}') {
-        (*i <= '9' && *i >= '0') ? ans += *i : i++;
-      }
-      if (ans.size() != 0) {
-        intparse(ans, row);
-      }
-      i++;
-    }
+    k = i;
   }
 
   // END HELPERS
@@ -60,26 +46,30 @@ public:
     vector<matrixrow *> *ans = new vector<matrixrow *>();
     if (!f.fail()) {
       while (getline(f, line, '\n')) {
-        if (!line.empty()) {
+                 char *i = &line[0];
+        while (i!=&line[line.size()-1]) {
           // 9 is first number
-          char *i = &line[0];
           // MAIN PROGRAM
           switch (*i) {
           case '{': {
             m = new matrixrow(line.size() - 2);
-            intparse(line, m);
+            intparse(line, m, i);
+            goto c4;
             break;
           }
           case '#': {
             return ans;
           }
+          c4:
+          case '}': {
+            ans->push_back(m);
+            break;
+          }
           }
           i++;
-          ans->push_back(m);
-        } else {
-          cout << "ERROR " << endl;
-          return new vector<matrixrow *>();
         }
+        cout << "ERROR " << endl;
+        return new vector<matrixrow *>();
       }
       // needs to be changed to
     } else {
