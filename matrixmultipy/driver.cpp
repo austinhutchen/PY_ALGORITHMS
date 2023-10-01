@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
     vector<matrixrow *> *B = p->filein(argv[2]);
     vector<matrixrow *>::iterator a = A->begin();
     vector<matrixrow *>::iterator b = B->begin();
+    cout << A->size() << " " << B->size() <<endl;
     while (a != A->end() && b != B->end()) {
       (*a)->print();
       (*b)->print();
@@ -47,7 +48,6 @@ int main(int argc, char **argv) {
     }
     bool safe = (isPowerOfTwo(A->size()) && isPowerOfTwo(B->size()));
     safe ? donothing() : padmatrix(A, B);
-    cout << "safe" << endl;
     matrixmult(*A, *B);
     A->clear();
     B->clear();

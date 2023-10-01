@@ -24,13 +24,12 @@ public:
   void donothing() { return; }
   void intparse(string v, matrixrow *row, char *&k) {
     // CODE IS WRONG CURRENTLY, NEEDS FIXING
-    char *i = &v[0];
+    char *i = k;
     unsigned p = 1;
     while (*i != '}') {
-      // converts to decimal representation of character ASCII
-      (*i <= '9' && *i >= '0') ? row->setelement(p, *i - '0') : donothing();
+      // converts to decimal representation of character ASCII between 0 and 8
+      (*i <= 57 && *i >= 48 && row->safe()) ? row->setelement( *i - 48) : donothing();
       i++;
-      p++;
     }
     k = i;
   }
@@ -48,29 +47,22 @@ public:
     if (!f.fail()) {
       while (getline(f, line, '\n')) {
         char *i = &line[0];
-        while (i != &line[line.size() - 1]) {
+        while (*i != '#') {
           // 9 is first number
           // MAIN PROGRAM
           switch (*i) {
           case '{': {
             m = new matrixrow(line.size() / _COLS);
             intparse(line, m, i);
-            goto c4;
             break;
           }
-          case '#': {
-            return ans;
           }
-          c4:
-          case '}': {
+          if (*i == '}') {
             ans->push_back(m);
-            break;
-          }
           }
           i++;
         }
-        cout << "ERROR " << endl;
-        return new vector<matrixrow *>();
+        return ans;
       }
       // needs to be changed to
     } else {
