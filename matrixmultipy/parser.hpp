@@ -6,6 +6,7 @@
 #include <vector>
 using namespace std;
 #pragma ONCE
+#define _COLS 3
 // will be used for Straussen's implementation
 class parser {
 public:
@@ -46,13 +47,13 @@ public:
     vector<matrixrow *> *ans = new vector<matrixrow *>();
     if (!f.fail()) {
       while (getline(f, line, '\n')) {
-                 char *i = &line[0];
-        while (i!=&line[line.size()-1]) {
+        char *i = &line[0];
+        while (i != &line[line.size() - 1]) {
           // 9 is first number
           // MAIN PROGRAM
           switch (*i) {
           case '{': {
-            m = new matrixrow(line.size() - 2);
+            m = new matrixrow(line.size() / _COLS);
             intparse(line, m, i);
             goto c4;
             break;
