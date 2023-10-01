@@ -3,7 +3,7 @@
 #include <tgmath.h>  //for the type generate macros.
 void donothing(void) { return; }
 void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
-  // A and B are now both square
+  // A and B are now both square, padded with zeroes
 
   return;
 }
@@ -37,8 +37,17 @@ int main(int argc, char **argv) {
     // instead of crashing for non-square 2n matrices.
     vector<matrixrow *> *A = p->filein(argv[1]);
     vector<matrixrow *> *B = p->filein(argv[2]);
+    vector<matrixrow *>::iterator a = A->begin();
+    vector<matrixrow *>::iterator b = B->begin();
+    while (a != A->end() && b != B->end()) {
+      (*a)->print();
+      (*b)->print();
+      a++;
+      b++;
+    }
     bool safe = (isPowerOfTwo(A->size()) && isPowerOfTwo(B->size()));
     safe ? donothing() : padmatrix(A, B);
+    cout << "safe" << endl;
     matrixmult(*A, *B);
     A->clear();
     B->clear();

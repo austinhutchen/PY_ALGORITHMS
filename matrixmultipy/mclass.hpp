@@ -1,3 +1,4 @@
+#include <stdexcept>
 #pragma ONCE
 #include <iostream>
 #include <vector>
@@ -27,6 +28,15 @@ class matrixrow {
     // set element i to val.
     this->row->clear();
     this->row=&nrow;
+  }
+  void print (){
+    // set element i to val.
+    vector<int>::iterator r_ptr = this->row->begin();
+    while(r_ptr!=row->end()){
+    cout << *r_ptr << " , ";
+    r_ptr++;
+    }
+    cout << endl;
   }
   vector<int> *& handoff(){
     return row;
