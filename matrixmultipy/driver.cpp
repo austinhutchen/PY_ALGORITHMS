@@ -39,11 +39,16 @@ int main(int argc, char **argv) {
     vector<matrixrow *> *B = p->filein(argv[2]);
     vector<matrixrow *>::iterator a = A->begin();
     vector<matrixrow *>::iterator b = B->begin();
-    cout << A->size() << " " << B->size() <<endl;
-    while (a != A->end() && b != B->end()) {
+    cout << "A CARDINAL: " << A->size() << " "
+         << "B CARDINAL: " << B->size() << endl;
+    cout << "MATRIX A:" << endl;
+    while (a != A->end()) {
       (*a)->print();
-      (*b)->print();
       a++;
+    }
+    cout << "MATRIX B:" << endl;
+    while (b != B->end()) {
+      (*b)->print();
       b++;
     }
     bool safe = (isPowerOfTwo(A->size()) && isPowerOfTwo(B->size()));
