@@ -28,7 +28,9 @@ public:
     unsigned p = 1;
     while (*i != '}') {
       // converts to decimal representation of character ASCII between 0 and 8
-      (*i <= 57 && *i >= 48 && row->safe()) ? row->setelement( *i - 48) : donothing();
+
+      (*i <= 57 && *i >= 48 && row->safe()) ? row->setelement(*i - 48)
+                                            : donothing();
       i++;
     }
     k = i;

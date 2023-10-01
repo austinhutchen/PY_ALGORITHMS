@@ -22,17 +22,15 @@ public:
     }
   }
 
-  double xn(size_t i) { return row->at(i - 1); }
   void setelement(int val) {
     // set element i to val.
     row->at(index - 1) = val;
     index++;
     return;
   }
-  void setrow(vector<int> nrow) {
+  unsigned clock() {
     // set element i to val.
-    this->row->clear();
-    this->row = &nrow;
+    return index;
   }
   void print() {
     // set element i to val.
@@ -43,7 +41,6 @@ public:
     }
     cout << endl;
   }
-  vector<int> *&handoff() { return row; }
 
 private:
   vector<int> *row;
