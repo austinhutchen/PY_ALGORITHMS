@@ -20,17 +20,14 @@ public:
     }
     return nullptr;
   }
-   void donothing(){
-
-   }
+  void donothing() { return; }
   void intparse(string v, matrixrow *row) {
     // CODE IS WRONG CURRENTLY, NEEDS FIXING
-    v = v.c_str();
     char *i = &v[0];
-    unsigned p=1;
+    unsigned p = 1;
     while (*i != '\0') {
       // converts to decimal representation of character ASCII
-       (*i <= '9' && *i >= '0') ? row->setelement(p, *i - '0'): donothing() ;
+      (*i <= '9' && *i >= '0') ? row->setelement(p, *i - '0') : donothing();
       i++;
       p++;
     }
@@ -70,7 +67,7 @@ public:
           switch (*i) {
           case '{': {
             m = new matrixrow(line.size() - 2);
-            numparse(line, *&i, m);
+            intparse(line, m);
             break;
           }
           case '#': {

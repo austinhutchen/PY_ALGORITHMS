@@ -18,7 +18,7 @@ class matrixrow {
   double xn(size_t i){
     return row->at(i-1);
   }
-  void setelement(size_t i, double val){
+  void setelement(size_t i, int val){
     // set element i to val.
     row->at(i-1)=val;
     return ;
