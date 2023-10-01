@@ -1,5 +1,4 @@
-OG AUTHOR: 
-<hr>
+
 <a href="https://github.com/austinhutchen"  target="_blank"> OG AUTHOR </a>
 
 <hr>
