@@ -46,6 +46,7 @@ bool isPowerOfTwo(int n) {
 
 void pad(vector<matrixrow *> *&nums) {
   // pad with zeroes until size is power of two
+  
   nums->push_back(new matrixrow(nums[0].size(), 0));
 }
 

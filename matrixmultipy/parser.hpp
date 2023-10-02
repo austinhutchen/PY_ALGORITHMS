@@ -22,30 +22,47 @@ public:
     return nullptr;
   }
 
-  void save_integer(char *i, matrixrow *&row) {
+  void save_integer(char *&i, matrixrow *&row) {
     string ans = string();
-    char next = *(++i);
-    char prev = *(--i);
+    unsigned char next = *(i + 1);
+    unsigned char prev = *(i - 1);
+    int val;
+
     // sign integers if they're negative, and properly store double digits
     if (next <= 57 && next >= 48) {
       ans += (*i);
       ans += next;
     }
-    int val;
-    if (ans.size() > 0) {
+    if (ans.size() == 0) {
+      ans = *i;
+      if (prev == '-') {
+        // two's comp for negative integers
+        val = (~(*i - '0') + 1);
+        row->setelement(val);
+        return;
+      } else {
+        // positive ints can just be converted
+        row->setelement(stoi(ans));
+      }
+    } else {
+      // double digit or unknown char
       try {
         val = stoi(ans);
+        if (prev == '-') {
+          // two's comp for negative integers
+          val = (~val + 1);
+          row->setelement(val);
+          return;
+        } else {
+          row->setelement(val);
+          return;
+        }
       } catch (exception &err) {
         cout << "INTEGER CONVERSION ERROR" << endl;
         return;
       }
     }
 
-    if (prev == '-') {
-      // two's comp for negative integers
-      val = (~val + 1);
-    }
-    ans.size() == 0 ? row->setelement(*i - '0') : row->setelement(val);
   }
 
   void donothing() { return; }
