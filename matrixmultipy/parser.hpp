@@ -21,29 +21,32 @@ public:
     }
     return nullptr;
   }
-  void check(char *&i, matrixrow *row) {
-    char next = *(i++);
+  void check(char *i, matrixrow *&row) {
+    cout << "VAL: " << *i <<endl;
+    string ans = string();
+    char next = *(++i);
+    char prev = *(--i);
+    // sign integers if they're negative, and properly store double digits
+    if (prev == '-') {
+      ans += '-';
+    }
     if (next <= 57 && next >= 48) {
-      string ans = string();
       ans += next;
       ans += *i;
-      row->setelement(stoi(ans));
-    } else {
-      row->setelement(*i);
     }
+    ans.size() == 0 ? row->setelement(*i-'0') : row->setelement(stoi(ans));
   }
+
   void donothing() { return; }
+
   void intparse(string v, matrixrow *row, char *&k) {
     // CODE IS WRONG CURRENTLY, NEEDS FIXING
     char *i = k;
-    unsigned p = 1;
-    while (*i != '}') {
+    while (*i != '#') {
       // converts to decimal representation of character ASCII between 0 and 8
-
       (*i <= 57 && *i >= 48 && row->safe()) ? check(i, row) : donothing();
-      i++;
+      i ++;
     }
-    k = i;
   }
 
   // END HELPERS
@@ -68,9 +71,10 @@ public:
             intparse(line, m, i);
             break;
           }
-          }
-          if (*i == '}') {
+          case '}': {
             ans->push_back(m);
+            break;
+          }
           }
           i++;
         }
