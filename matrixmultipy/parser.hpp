@@ -39,10 +39,12 @@ public:
         // two's comp for negative integers
         val = (~(*i - '0') + 1);
         row->setelement(val);
+        i++;
         return;
       } else {
         // positive ints can just be converted
         row->setelement(stoi(ans));
+        i++;
       }
     } else {
       // double digit or unknown char
@@ -52,9 +54,11 @@ public:
           // two's comp for negative integers
           val = (~val + 1);
           row->setelement(val);
+          i++;
           return;
         } else {
           row->setelement(val);
+          i++;
           return;
         }
       } catch (exception &err) {

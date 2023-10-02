@@ -1,5 +1,6 @@
 #include "./parser.hpp"
 #include <complex.h> //complex variables and complex unit I
+#include <cstddef>
 #include <tgmath.h>  //for the type generate macros.
 #include <iterator>
 void donothing(void) { return; }
@@ -84,5 +85,7 @@ int main(int argc, char **argv) {
   cout << " A * B = " << matrixmult(*A, *B) <<endl;
   A->clear();
   B->clear();
-  A = B = 0x0;
+  delete p;
+  p=nullptr;
+  A = B = nullptr;
 }
