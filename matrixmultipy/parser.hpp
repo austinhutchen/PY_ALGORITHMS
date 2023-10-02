@@ -22,19 +22,28 @@ public:
     return nullptr;
   }
   void check(char *i, matrixrow *&row) {
-    cout << "VAL: " << *i <<endl;
     string ans = string();
     char next = *(++i);
     char prev = *(--i);
     // sign integers if they're negative, and properly store double digits
-    if (prev == '-') {
-      ans += '-';
-    }
     if (next <= 57 && next >= 48) {
       ans += next;
-      ans += *i;
+      ans += (*i);
     }
-    ans.size() == 0 ? row->setelement(*i-'0') : row->setelement(stoi(ans));
+    int val;
+    if (ans.size() > 0) {
+      try {
+        val = stoi(ans);
+      } catch (exception &err) {
+        cout << "INTEGER CONVERSION ERROR" << endl;
+        return;
+      }
+    }
+
+    if (prev == ('-')) {
+      val = ~val + 1;
+    }
+    ans.size() == 0 ? row->setelement(*i - '0') : row->setelement(val);
   }
 
   void donothing() { return; }
@@ -45,7 +54,7 @@ public:
     while (*i != '#') {
       // converts to decimal representation of character ASCII between 0 and 8
       (*i <= 57 && *i >= 48 && row->safe()) ? check(i, row) : donothing();
-      i ++;
+      i++;
     }
   }
 
