@@ -3,6 +3,8 @@
 #include <tgmath.h>  //for the type generate macros.
 #include <iterator>
 void donothing(void) { return; }
+
+
 void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   // A and B are now both square, padded with zeroes
   vector<matrixrow *>::iterator A_itr_1 = A.begin();

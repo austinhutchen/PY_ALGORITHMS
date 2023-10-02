@@ -40,7 +40,7 @@ public:
     // set element i to val.
     vector<int>::iterator r_ptr = this->row->begin();
     while (r_ptr != row->end()) {
-      cout << *r_ptr << " , ";
+      cout << *r_ptr << " | ";
       r_ptr++;
     }
     cout << endl;
