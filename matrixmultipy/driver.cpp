@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
     (*b)->print();
     b++;
   }
-  cout << "MULTIPLICATION RESULT: " << matrixmult(*A, *B) <<endl;
+  cout << " A * B = " << matrixmult(*A, *B) <<endl;
   A->clear();
   B->clear();
   A = B = 0x0;
