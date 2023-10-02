@@ -65,16 +65,16 @@ public:
 
   }
 
-  void donothing() { return; }
+  void donothing(void) { return; }
 
-  void intparse(string v, matrixrow *row, char *k) {
-    char *i = k;
-    while (*i != '#') {
+  void intparse(matrixrow *row, char *k) {
+    char *p = k;
+    while (*p != '#') {
       // converts to decimal representation of character ASCII between 0 and 9,
       // adding to row in free index
-      (*i <= 57 && *i >= 48 && row->safe()) ? save_integer(i, row)
+      (*p <= 57 && *p >= 48 && row->safe()) ? save_integer(p, row)
                                             : donothing();
-      i++;
+      p++;
     }
   }
 
@@ -97,7 +97,7 @@ public:
           switch (*i) {
           case '{': {
             row = new matrixrow((line.size() / _COLS));
-            intparse(line, row, i);
+            intparse(row, i);
             break;
           }
           case '}': {

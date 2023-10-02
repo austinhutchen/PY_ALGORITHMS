@@ -1,13 +1,14 @@
 #include "./parser.hpp"
 #include <complex.h> //complex variables and complex unit I
 #include <tgmath.h>  //for the type generate macros.
+#include <iterator>
 void donothing(void) { return; }
 void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   // A and B are now both square, padded with zeroes
   vector<matrixrow *>::iterator A_itr_1 = A.begin();
   vector<matrixrow *>::iterator B_itr_1 = B.begin();
-  __wrap_iter<matrixrow **> middleA = A.begin() + (A.size() / 2);
-  __wrap_iter<matrixrow **> middleB = B.begin() + (B.size() / 2);
+  vector < matrixrow* >::const_iterator middleA = A.begin() + (A.size() / 2);
+  vector < matrixrow* >::const_iterator middleB = B.begin() + (B.size() / 2);
   vector<matrixrow *>::iterator A_itr_2 = A.begin() + (A.size() / 2);
   vector<matrixrow *>::iterator B_itr_2 = B.begin() + (B.size() / 2);
   vector<matrixrow *> A_L(A.size() / 2);
