@@ -6,7 +6,7 @@ void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   // A and B are now both square, padded with zeroes
   vector<matrixrow *>::iterator A_itr_1 = A.begin();
   vector<matrixrow *>::iterator B_itr_1 = B.begin();
-  auto mid = A.begin() + (A.size() / 2);
+  __wrap_iter<matrixrow **> middle = A.begin() + (A.size() / 2);
   vector<matrixrow *>::iterator A_itr_2 = A.begin() + (A.size() / 2);
   vector<matrixrow *>::iterator B_itr_2 = B.begin() + (B.size() / 2);
   vector<matrixrow *> A_L(A.size() / 2);
@@ -14,20 +14,20 @@ void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   vector<matrixrow *> B_L(A.size() / 2);
   vector<matrixrow *> B_R(A.size() / 2);
   unsigned counter = 0;
-  while (A_itr_1 != mid && A_itr_2 != A.end()) {
+  while (A_itr_1 != middle && A_itr_2 != A.end()) {
     A_L[counter] = *A_itr_1;
     A_R[counter] = *A_itr_2;
     A_itr_1++;
     A_itr_2++;
   }
-  while (B_itr_1 != mid && B_itr_2 != B.end()) {
+  while (B_itr_1 != middle && B_itr_2 != B.end()) {
     B_L[counter] = *B_itr_1;
     B_R[counter] = *B_itr_2;
     B_itr_1++;
     B_itr_2++;
   }
   // split is made
-  
+
   int result = 32;
   cout << "Matrix multiplication result is : " << result << endl;
   return;
