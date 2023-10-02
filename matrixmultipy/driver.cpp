@@ -22,7 +22,7 @@ void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
     A_itr_2++;
     counter++;
   }
-  counter=0;
+  counter = 0;
   while (B_itr_1 != middleB && B_itr_2 != B.end()) {
     B_L[counter] = *B_itr_1;
     B_R[counter] = *B_itr_2;
@@ -56,30 +56,28 @@ void padmatrix(vector<matrixrow *> *&A, vector<matrixrow *> *&B) {
 
 int main(int argc, char **argv) {
   parser *p = new parser();
-  if (argv[1] && argv[2]) {
-    // As noted on wp, you could pad with zeroes, and strip them on exit,
-    // instead of crashing for non-square 2n matrices.
-    vector<matrixrow *> *A = p->filein(argv[1]);
-    vector<matrixrow *> *B = p->filein(argv[2]);
-    vector<matrixrow *>::iterator a = A->begin();
-    vector<matrixrow *>::iterator b = B->begin();
-    bool safe = (isPowerOfTwo(A->size()) && isPowerOfTwo(B->size()));
-    safe ? donothing() : padmatrix(A, B);
-    cout << "A DIMENSION: " << A->size() << " "
-         << "B DIMENSION: " << B->size() << endl;
-    cout << "MATRIX A:" << endl;
-    while (a != A->end()) {
-      (*a)->print();
-      a++;
-    }
-    cout << "MATRIX B:" << endl;
-    while (b != B->end()) {
-      (*b)->print();
-      b++;
-    }
-    matrixmult(*A, *B);
-    A->clear();
-    B->clear();
-    A = B = 0x0;
+  // As noted on wp, you could pad with zeroes, and strip them on exit,
+  // instead of crashing for non-square 2n matrices.
+  vector<matrixrow *> *A = p->filein("a.txt");
+  vector<matrixrow *> *B = p->filein("b.txt");
+  vector<matrixrow *>::iterator a = A->begin();
+  vector<matrixrow *>::iterator b = B->begin();
+  bool safe = (isPowerOfTwo(A->size()) && isPowerOfTwo(B->size()));
+  safe ? donothing() : padmatrix(A, B);
+  cout << "A DIMENSION: " << A->size() << " "
+       << "B DIMENSION: " << B->size() << endl;
+  cout << "MATRIX A:" << endl;
+  while (a != A->end()) {
+    (*a)->print();
+    a++;
   }
+  cout << "MATRIX B:" << endl;
+  while (b != B->end()) {
+    (*b)->print();
+    b++;
+  }
+  matrixmult(*A, *B);
+  A->clear();
+  B->clear();
+  A = B = 0x0;
 }

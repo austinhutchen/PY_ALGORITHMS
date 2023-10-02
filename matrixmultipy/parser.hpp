@@ -22,7 +22,7 @@ public:
     return nullptr;
   }
 
-  void check(char *i, matrixrow *&row) {
+  void save_integer(char *i, matrixrow *&row) {
     string ans = string();
     char next = *(++i);
     char prev = *(--i);
@@ -41,19 +41,22 @@ public:
       }
     }
 
-    if (prev == ('-')) {
-      val = ~val + 1;
+    if (prev == '-') {
+      // two's comp for negative integers
+      val = (~val + 1);
     }
     ans.size() == 0 ? row->setelement(*i - '0') : row->setelement(val);
   }
 
   void donothing() { return; }
 
-  void intparse(string v, matrixrow *row, char *&k) {
+  void intparse(string v, matrixrow *row, char *k) {
     char *i = k;
     while (*i != '#') {
-      // converts to decimal representation of character ASCII between 0 and 8
-      (*i <= 57 && *i >= 48 && row->safe()) ? check(i, row) : donothing();
+      // converts to decimal representation of character ASCII between 0 and 9,
+      // adding to row in free index
+      (*i <= 57 && *i >= 48 && row->safe()) ? save_integer(i, row)
+                                            : donothing();
       i++;
     }
   }
@@ -66,8 +69,8 @@ public:
     ifstream f;
     f.open(in);
     string line;
-    matrixrow *m;
-    vector<matrixrow *> *ans = new vector<matrixrow *>();
+    matrixrow *row;
+    vector<matrixrow *> *matrix = new vector<matrixrow *>();
     if (!f.fail()) {
       while (getline(f, line, '\n')) {
         char *i = &line[0];
@@ -76,23 +79,23 @@ public:
           // MAIN PROGRAM
           switch (*i) {
           case '{': {
-            m = new matrixrow((line.size() / _COLS));
-            intparse(line, m, i);
+            row = new matrixrow((line.size() / _COLS));
+            intparse(line, row, i);
             break;
           }
           case '}': {
             if (*(++i) == '}') {
-              ans->push_back(m);
-              return ans;
+              matrix->push_back(row);
+              return matrix;
             } else {
-              ans->push_back(m);
+              matrix->push_back(row);
             }
             break;
           }
           }
           i++;
         }
-        return ans;
+        return matrix;
       }
       // needs to be changed to
     } else {

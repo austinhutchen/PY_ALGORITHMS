@@ -10,11 +10,11 @@ public:
     row = new vector<int>();
     index = 1;
   }
-  matrixrow(unsigned size) {
+  matrixrow(size_t size) {
     row = new vector<int>(size);
     index = 1;
   }
-  matrixrow(unsigned size, int val) {
+  matrixrow(size_t size, int val) {
     row = new vector<int>(size, val);
     index = 1;
   }
