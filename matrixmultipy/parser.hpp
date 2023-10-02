@@ -21,15 +21,15 @@ public:
     }
     return nullptr;
   }
-  
+
   void check(char *i, matrixrow *&row) {
     string ans = string();
     char next = *(++i);
     char prev = *(--i);
     // sign integers if they're negative, and properly store double digits
     if (next <= 57 && next >= 48) {
-      ans += next;
       ans += (*i);
+      ans += next;
     }
     int val;
     if (ans.size() > 0) {
