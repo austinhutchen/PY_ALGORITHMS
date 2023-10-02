@@ -49,7 +49,6 @@ public:
   void donothing() { return; }
 
   void intparse(string v, matrixrow *row, char *&k) {
-    // CODE IS WRONG CURRENTLY, NEEDS FIXING
     char *i = k;
     while (*i != '#') {
       // converts to decimal representation of character ASCII between 0 and 8

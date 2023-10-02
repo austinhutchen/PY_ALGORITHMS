@@ -14,6 +14,10 @@ public:
     row = new vector<int>(size);
     index = 1;
   }
+  matrixrow(unsigned size, int val) {
+    row = new vector<int>(size, val);
+    index = 1;
+  }
   bool safe() { return (index < row->size()); }
   void fill(string in, unsigned start, size_t count) {
     // string now needs parsing
@@ -41,6 +45,7 @@ public:
     }
     cout << endl;
   }
+  size_t size() { return row->size(); }
 
 private:
   vector<int> *row;

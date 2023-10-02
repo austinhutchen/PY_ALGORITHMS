@@ -13,21 +13,16 @@ bool isPowerOfTwo(int n) {
 
   return (ceil(log2(n)) == floor(log2(n)));
 }
-void padB(vector<matrixrow *> *&B) {
-  // pad B with zeroes until size is power of two
+void pad(vector<matrixrow *> *&nums) {
+  // pad with zeroes until size is power of two
+  vector<matrixrow *> pad;
+  matrixrow *padrow = new matrixrow(nums[0].size(), 0);
+  pad.push_back(padrow);
 }
-void padA(vector<matrixrow *> *&A) {
-  // pad B with zeroes until size is power of two
-}
+
 void padmatrix(vector<matrixrow *> *A, vector<matrixrow *> *B) {
-  // express
-  bool Agood = (isPowerOfTwo(A->size()));
-  if (Agood) {
-    cout << "A NOT PADDED" << endl;
-  } else {
-    cout << "B NOT PADDED" << endl;
-  }
-  Agood ? padB(B) : padA(A);
+  (isPowerOfTwo(A->size())) ? donothing() : pad(A);
+  (isPowerOfTwo(B->size())) ? donothing() : pad(B);
 }
 
 int main(int argc, char **argv) {
