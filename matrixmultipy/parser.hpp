@@ -21,6 +21,7 @@ public:
     }
     return nullptr;
   }
+  
   void check(char *i, matrixrow *&row) {
     string ans = string();
     char next = *(++i);
