@@ -27,7 +27,6 @@ public:
     unsigned char next = *(i + 1);
     unsigned char prev = *(i - 1);
     int val;
-
     // sign integers if they're negative, and properly store double digits
     if (next <= 57 && next >= 48) {
       ans += (*i);
@@ -66,7 +65,6 @@ public:
         return;
       }
     }
-
   }
 
   void donothing(void) { return; }
@@ -124,7 +122,6 @@ public:
               "placement of filename within this directory."
            << endl;
       return new vector<matrixrow *>();
-      ;
     }
   }
 };

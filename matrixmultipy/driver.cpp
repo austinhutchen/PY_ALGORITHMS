@@ -1,17 +1,18 @@
 #include "./parser.hpp"
 #include <complex.h> //complex variables and complex unit I
 #include <cstddef>
-#include <tgmath.h>  //for the type generate macros.
 #include <iterator>
+#include <tgmath.h> //for the type generate macros.
 void donothing(void) { return; }
 
-
+int _strassens() {}
 int matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   // A and B are now both square, padded with zeroes
+  // work with strassen's
   vector<matrixrow *>::iterator A_itr_1 = A.begin();
   vector<matrixrow *>::iterator B_itr_1 = B.begin();
-  vector < matrixrow* >::const_iterator middleA = A.begin() + (A.size() / 2);
-  vector < matrixrow* >::const_iterator middleB = B.begin() + (B.size() / 2);
+  vector<matrixrow *>::const_iterator middleA = A.begin() + (A.size() / 2);
+  vector<matrixrow *>::const_iterator middleB = B.begin() + (B.size() / 2);
   vector<matrixrow *>::iterator A_itr_2 = A.begin() + (A.size() / 2);
   vector<matrixrow *>::iterator B_itr_2 = B.begin() + (B.size() / 2);
   vector<matrixrow *> A_L(A.size() / 2);
@@ -36,9 +37,24 @@ int matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   }
   // split is made, perform recursion and multiplication below
   int result;
-  for(int i=1;i<=B_L[0]->size();i++){
-  result+=A_L[0]->entrylookup(1) * B_L[0]->entrylookup(i);
-  } 
+  auto vec = B_L.begin();
+  auto vec2 = B_R.begin();
+  auto vec3 = A_L.begin();
+  auto vec4 = A_R.begin();
+  while (vec != B_L.end()) {
+    for (int i = 1; i <= (*vec)->size(); i++) {
+      result += (*vec)->entrylookup(1) * (*vec3)->entrylookup(i);
+    }
+    for (int i = 1; i <= (*vec2)->size(); i++) {
+      result += (*vec2)->entrylookup(1) * (*vec4)->entrylookup(i);
+    }
+
+    vec++;
+    vec2++;
+    vec3++;
+    vec4++;
+  }
+
   return result;
 }
 
@@ -51,8 +67,8 @@ bool isPowerOfTwo(int n) {
 
 void pad(vector<matrixrow *> *&nums) {
   // pad with zeroes until size is power of two
-  
-  nums->push_back(new matrixrow(nums[0].size(), 0));
+
+  nums->push_back(new matrixrow(nums[0].size() + 1, 0));
 }
 
 void padmatrix(vector<matrixrow *> *&A, vector<matrixrow *> *&B) {
@@ -82,10 +98,10 @@ int main(int argc, char **argv) {
     (*b)->print();
     b++;
   }
-  cout << " A * B = " << matrixmult(*A, *B) <<endl;
+  cout << " A * B = " << matrixmult(*A, *B) << endl;
   A->clear();
   B->clear();
   delete p;
-  p=nullptr;
+  p = nullptr;
   A = B = nullptr;
 }
