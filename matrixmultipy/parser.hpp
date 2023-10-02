@@ -54,7 +54,7 @@ public:
           // MAIN PROGRAM
           switch (*i) {
           case '{': {
-            m = new matrixrow(line.size() / _COLS);
+            m = new matrixrow((line.size() / _COLS) );
             intparse(line, m, i);
             break;
           }

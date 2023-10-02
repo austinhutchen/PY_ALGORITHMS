@@ -39,8 +39,8 @@ int main(int argc, char **argv) {
     vector<matrixrow *> *B = p->filein(argv[2]);
     vector<matrixrow *>::iterator a = A->begin();
     vector<matrixrow *>::iterator b = B->begin();
-    cout << "A CARDINAL: " << A->size() << " "
-         << "B CARDINAL: " << B->size() << endl;
+    cout << "A DIMENSION: " << A->size() << " "
+         << "B DIMENSION: " << B->size() << endl;
     cout << "MATRIX A:" << endl;
     while (a != A->end()) {
       (*a)->print();
