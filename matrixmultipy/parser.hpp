@@ -21,6 +21,17 @@ public:
     }
     return nullptr;
   }
+  void check(char *&i, matrixrow *row) {
+    char next = *(i++);
+    if (next <= 57 && next >= 48) {
+      string ans = string();
+      ans += next;
+      ans += *i;
+      row->setelement(stoi(ans));
+    } else {
+      row->setelement(*i);
+    }
+  }
   void donothing() { return; }
   void intparse(string v, matrixrow *row, char *&k) {
     // CODE IS WRONG CURRENTLY, NEEDS FIXING
@@ -29,8 +40,7 @@ public:
     while (*i != '}') {
       // converts to decimal representation of character ASCII between 0 and 8
 
-      (*i <= 57 && *i >= 48 && row->safe()) ? row->setelement(*i - 48)
-                                            : donothing();
+      (*i <= 57 && *i >= 48 && row->safe()) ? check(i, row) : donothing();
       i++;
     }
     k = i;
@@ -54,7 +64,7 @@ public:
           // MAIN PROGRAM
           switch (*i) {
           case '{': {
-            m = new matrixrow((line.size() / _COLS) );
+            m = new matrixrow((line.size() / _COLS));
             intparse(line, m, i);
             break;
           }
