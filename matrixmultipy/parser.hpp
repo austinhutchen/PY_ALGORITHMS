@@ -81,7 +81,12 @@ public:
             break;
           }
           case '}': {
-            ans->push_back(m);
+            if (*(++i) == '}') {
+              ans->push_back(m);
+              return ans;
+            } else {
+              ans->push_back(m);
+            }
             break;
           }
           }
