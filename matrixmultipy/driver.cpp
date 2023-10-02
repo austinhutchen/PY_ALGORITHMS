@@ -5,7 +5,7 @@
 void donothing(void) { return; }
 
 
-void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
+int matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   // A and B are now both square, padded with zeroes
   vector<matrixrow *>::iterator A_itr_1 = A.begin();
   vector<matrixrow *>::iterator B_itr_1 = B.begin();
@@ -34,10 +34,11 @@ void matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
     counter++;
   }
   // split is made, perform recursion and multiplication below
-
-  int result = 32;
-  cout << "Matrix multiplication result is : " << result << endl;
-  return;
+  int result;
+  for(int i=1;i<=B_L[0]->size();i++){
+  result+=A_L[0]->entrylookup(1) * B_L[0]->entrylookup(i);
+  } 
+  return result;
 }
 
 bool isPowerOfTwo(int n) {
@@ -80,7 +81,7 @@ int main(int argc, char **argv) {
     (*b)->print();
     b++;
   }
-  matrixmult(*A, *B);
+  cout << "MULTIPLICATION RESULT: " << matrixmult(*A, *B) <<endl;
   A->clear();
   B->clear();
   A = B = 0x0;

@@ -32,6 +32,10 @@ public:
     index++;
     return;
   }
+   int entrylookup(int val) {
+    // set element i to val.
+    return row->at(val-1);
+  }
   unsigned clock() {
     // set element i to val.
     return index;
