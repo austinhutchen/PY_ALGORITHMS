@@ -1,61 +1,27 @@
 #include "./parser.hpp"
-#include <complex.h> //complex variables and complex unit I
 #include <cstddef>
 #include <iterator>
 #include <tgmath.h> //for the type generate macros.
 void donothing(void) { return; }
 
-int _strassens() {}
+vector<matrixrow *> _strassens(vector<matrixrow *> nums) {
+  vector<matrixrow *>::iterator L_itr = nums.begin();
+  vector<matrixrow *>::iterator R_itr = nums.begin() + (nums.size() / 2);
+  vector<matrixrow *>::const_iterator middleA =
+      nums.begin() + (nums.size() / 2);
+  while (L_itr != middleA && R_itr != nums.end()) {
+
+    L_itr++;
+    R_itr++;
+  }
+  return nums;
+}
 int matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
   // A and B are now both square, padded with zeroes
   // work with strassen's
-  vector<matrixrow *>::iterator A_itr_1 = A.begin();
-  vector<matrixrow *>::iterator B_itr_1 = B.begin();
-  vector<matrixrow *>::const_iterator middleA = A.begin() + (A.size() / 2);
-  vector<matrixrow *>::const_iterator middleB = B.begin() + (B.size() / 2);
-  vector<matrixrow *>::iterator A_itr_2 = A.begin() + (A.size() / 2);
-  vector<matrixrow *>::iterator B_itr_2 = B.begin() + (B.size() / 2);
-  vector<matrixrow *> A_L(A.size() / 2);
-  vector<matrixrow *> A_R(A.size() / 2);
-  vector<matrixrow *> B_L(B.size() / 2);
-  vector<matrixrow *> B_R(B.size() / 2);
-  unsigned counter = 0;
-  while (A_itr_1 != middleA && A_itr_2 != A.end()) {
-    A_L[counter] = *A_itr_1;
-    A_R[counter] = *A_itr_2;
-    A_itr_1++;
-    A_itr_2++;
-    counter++;
-  }
-  counter = 0;
-  while (B_itr_1 != middleB && B_itr_2 != B.end()) {
-    B_L[counter] = *B_itr_1;
-    B_R[counter] = *B_itr_2;
-    B_itr_1++;
-    B_itr_2++;
-    counter++;
-  }
-  // split is made, perform recursion and multiplication below
-  int result;
-  auto vec = B_L.begin();
-  auto vec2 = B_R.begin();
-  auto vec3 = A_L.begin();
-  auto vec4 = A_R.begin();
-  while (vec != B_L.end()) {
-    for (int i = 1; i <= (*vec)->size(); i++) {
-      result += (*vec)->entrylookup(1) * (*vec3)->entrylookup(i);
-    }
-    for (int i = 1; i <= (*vec2)->size(); i++) {
-      result += (*vec2)->entrylookup(1) * (*vec4)->entrylookup(i);
-    }
-
-    vec++;
-    vec2++;
-    vec3++;
-    vec4++;
-  }
-
-  return result;
+  vector<matrixrow *> newA = _strassens(A);
+  vector<matrixrow *> newB = _strassens(B);
+  return 1;
 }
 
 bool isPowerOfTwo(int n) {
@@ -78,8 +44,9 @@ void padmatrix(vector<matrixrow *> *&A, vector<matrixrow *> *&B) {
 
 int main(int argc, char **argv) {
   parser *p = new parser();
-  // As noted on wp, you could pad with zeroes, and strip them on exit,
-  // instead of crashing for non-square 2n matrices.
+// As noted on wp, you could pad with zeroes, and strip them on exit,
+// instead of crashing for non-square 2n matrices.
+#pragma OMP parallel for
   vector<matrixrow *> *A = p->filein("a.txt");
   vector<matrixrow *> *B = p->filein("b.txt");
   vector<matrixrow *>::iterator a = A->begin();
@@ -105,3 +72,92 @@ int main(int argc, char **argv) {
   p = nullptr;
   A = B = nullptr;
 }
+
+/*
+
+
+// Strassen's Algorithm
+Matrix strassen(Matrix A, Matrix B, size N) {
+
+        // Base case
+        if (N == 1) {
+                return sq_matrix_multiply(A, B, N);
+        }
+
+        // Create a new matrix to hold the result
+        Matrix C = createMatrix(N);
+
+        size K = N / 2;
+
+        // New sub-matrices
+        Matrix A11 = createMatrix(K);
+        Matrix A12 = createMatrix(K);
+        Matrix A21 = createMatrix(K);
+        Matrix A22 = createMatrix(K);
+        Matrix B11 = createMatrix(K);
+        Matrix B12 = createMatrix(K);
+        Matrix B21 = createMatrix(K);
+        Matrix B22 = createMatrix(K);
+
+
+        // Populate the values accordingly
+        for (unsigned int i = 0; i < K; i++) {
+                for (unsigned j = 0; j < K; j++) {
+                        A11[i][j] = A[i][j];
+                        A12[i][j] = A[i][K + j];		// Bug solved: I
+had a type: A22 instead of A12 A21[i][j] = A[K + i][j]; A22[i][j] = A[K + i][K +
+j]; B11[i][j] = B[i][j]; B12[i][j] = B[i][K + j];		// Bug solved: I
+had a type: B22 instead of B12 B21[i][j] = B[K + i][j]; B22[i][j] = B[K + i][K +
+j];
+                }
+        }
+
+        // S
+        Matrix S1 = subtract(B12, B22, K);
+        Matrix S2 = add(A11, A12, K);
+        Matrix S3 = add(A21, A22, K);
+        Matrix S4 = subtract(B21, B11, K);
+        Matrix S5 = add(A11, A22, K);
+        Matrix S6 = add(B11, B22, K);
+        Matrix S7 = subtract(A12, A22, K);
+        Matrix S8 = add(B21, B22, K);
+        Matrix S9 = subtract(A11, A21, K);
+        Matrix S10 = add(B11, B12, K);
+
+        // P
+        Matrix P1 = strassen(A11, S1, K);
+        Matrix P2 = strassen(S2, B22, K);
+        Matrix P3 = strassen(S3, B11, K);
+        Matrix P4 = strassen(A22, S4, K);
+        Matrix P5 = strassen(S5, S6, K);
+        Matrix P6 = strassen(S7, S8, K);
+        Matrix P7 = strassen(S9, S10, K);
+
+        // C_i
+        Matrix C11 = subtract(add(add(P5, P4, K), P6, K), P2, K);
+// P5 + P4 - P2 + P6
+        Matrix C12 = add(P1, P2, K);
+// P1 + P2 Matrix C21 = add(P3, P4, K);
+// P3 + P4 Matrix C22 = subtract(subtract(add(P5, P1, K), P3, K), P7, K);
+// P1 + P5 - P3 - P7
+
+                                                                                                                                                                // C
+        for (unsigned int i = 0; i < K; i++) {
+                for (unsigned int j = 0; j < K; j++) {
+
+                        C[i][j] = C11[i][j];
+
+                        C[i][j + K] = C12[i][j];
+
+                        C[K + i][j] = C21[i][j];
+
+                        C[K + i][K + j] = C22[i][j];
+                }
+        }
+
+        // Return the result
+        return C;
+}
+
+
+*/
