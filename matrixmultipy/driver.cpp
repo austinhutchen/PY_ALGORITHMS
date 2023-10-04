@@ -3,26 +3,24 @@
 #include <iterator>
 #include <tgmath.h> //for the type generate macros.
 void donothing(void) { return; }
-
-vector<matrixrow *> _strassens(vector<matrixrow *> nums) {
-  vector<matrixrow *>::iterator L_itr = nums.begin();
-  vector<matrixrow *>::iterator R_itr = nums.begin() + (nums.size() / 2);
-  vector<matrixrow *>::const_iterator middleA =
-      nums.begin() + (nums.size() / 2);
-  while (L_itr != middleA && R_itr != nums.end()) {
-
-    L_itr++;
-    R_itr++;
+#include <stdio.h>
+#define BUFFER_SIZE 1234
+// output matrix to python using fwrite
+void writeo(vector<matrixrow *> *A, vector<matrixrow *> *B) {
+  vector<matrixrow *>::iterator a = A->begin();
+  vector<matrixrow *>::iterator b = B->begin();
+  while (a != A->end()) {
+    (*a)->print();
+    a++;
   }
-  return nums;
+  while (b != B->end()) {
+    (*b)->print();
+    b++;
+  }
+  unsigned char local_buf[BUFFER_SIZE];
+  /* read from sensor to buffer */
 }
-int matrixmult(vector<matrixrow *> A, vector<matrixrow *> B) {
-  // A and B are now both square, padded with zeroes
-  // work with strassen's
-  vector<matrixrow *> newA = _strassens(A);
-  vector<matrixrow *> newB = _strassens(B);
-  return 1;
-}
+
 
 bool isPowerOfTwo(int n) {
   if (n == 0)
@@ -65,7 +63,7 @@ int main(int argc, char **argv) {
     (*b)->print();
     b++;
   }
-  cout << " A * B = " << matrixmult(*A, *B) << endl;
+
   A->clear();
   B->clear();
   delete p;
