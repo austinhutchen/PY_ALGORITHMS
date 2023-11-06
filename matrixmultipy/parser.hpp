@@ -60,9 +60,10 @@ public:
           i++;
           return;
         }
-      } catch (exception &err) {
-        cout << "INTEGER CONVERSION ERROR" << endl;
-        return;
+      }
+      catch(){
+        cout << "CONVERSION FAIL" << std::endl;
+        exit(0)
       }
     }
   }
